@@ -1,7 +1,9 @@
+import java.util.EmptyStackException;
+
 public class MyStack<E> {
     private E[] data; // generic array used to store the elements of the stack
     private int top; // index of the top element in the stack
-    private static final int CAPACITY = 4; //Default capacity of the stack
+    private static int CAPACITY = 4; //Default capacity of the stack
 
     public MyStack(int capacity) {
         data = (E[]) new Object[capacity]; // safe cast; compiler may give warning
@@ -24,12 +26,13 @@ public class MyStack<E> {
         if (size() == data.length) {
             resize();
         }
-        data[top++] = e; // increment top before storing new element
+        data[top + 1] = e; // add the element to the top of the stack
+        top++; // increment top
     }
 
     public E top() {
         if (isEmpty()) {
-            return null;
+            throw new EmptyStackException(); // throw an exception if the stack is empty
         } else {
             return data[top]; // return the top element of the stack
 
@@ -38,7 +41,7 @@ public class MyStack<E> {
 
     public E pop() {
         if (isEmpty()) {
-            return null;
+            throw new EmptyStackException(); // throw an exception if the stack is empty
         } else {
             E result = data[top]; // store the top element in a variable
             data[top] = null; // remove top element;
